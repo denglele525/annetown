@@ -1,8 +1,8 @@
-import {config} from "../../config/config";
 import {Theme} from "../../model/theme";
 import {Banner} from "../../model/banner";
 import {Category} from "../../model/category";
 import {Activity} from "../../model/activity";
+import {Spu_paging} from "../../model/spu_paging";
 
 Page({
 
@@ -26,6 +26,15 @@ Page({
      */
     async onLoad(options) {
         this.initAllData()
+        this.initBottomSpuList()
+    },
+
+    async initBottomSpuList() {
+        const paging = await Spu_paging.getLatestPaging()
+        const data = paging.getMoreData()
+        if (!data) {
+            return
+        }
     },
 
     async initAllData() {
@@ -52,7 +61,7 @@ Page({
 
         const bannerG = await Banner.getHomeLocationG()
 
-        const themeH =  theme.getHomeLocationH()
+        const themeH = theme.getHomeLocationH()
 
         this.setData({
             themeA,

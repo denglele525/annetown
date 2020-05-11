@@ -2,7 +2,7 @@ Component({
   /**
    * 组件的属性列表
    */
-  externalClasses: ['l-class', 'l-img-class','l-title-class'],
+  externalClasses: ['l-class', 'l-imgs-class','l-title-class'],
   options: {
     multipleSlots: true // 在组件定义时的选项中启用多slot支持
   },
