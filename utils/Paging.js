@@ -48,6 +48,8 @@ class Paging {
         if (!paging) {
             return null
         }
+        paging = paging.data[0]
+
         if (paging.total === 0) {
             return {
                 empty: true,
@@ -56,15 +58,14 @@ class Paging {
                 accumulator: this.accumulator
             }
         }
-
-        this.moreData = Paging._moreData(paging.total_page, paging.pageNum)
+        this.moreData = Paging._moreData(paging.total_page, paging.page)
         if (this.moreData) {
             this.start += this.count
         }
         this._accumulator(paging.items)
         return {
             empty: false,
-            items: Paging.items,
+            items: paging.items,
             moreData: this.moreData,
             accumulator: this.accumulator
         }
@@ -72,15 +73,14 @@ class Paging {
 
     _getCurrentReq() {
         let url = this.url
-        console.log('~~~~~' + url)
-        console.log('~~~~~' + url.indexOf('?'))
         const params = `start=${this.start}&count=${this.count}`
         //53000/themes?
-        if (url.indexOf('?') !== '-1') {
-            url += '?' + params
-        } else {
+        if (url.includes('-1')) {
             url += '&' + params
+        } else {
+            url += '?' + params
         }
+
         this.req.url = url
         return this.req
     }

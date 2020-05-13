@@ -18,7 +18,8 @@ Page({
         themeESpu: null,
         themeF: null,
         bannerG: null,
-        themeH: null
+        themeH: null,
+        spuPaging: null
     },
 
     /**
@@ -31,18 +32,19 @@ Page({
 
     async initBottomSpuList() {
         const paging = await Spu_paging.getLatestPaging()
-        const data = paging.getMoreData()
+        this.data.spuPaging = paging
+        const data = await paging.getMoreData()
         if (!data) {
             return
         }
+
+        wx.lin.renderWaterFlow(data.items, false)
     },
 
     async initAllData() {
         const theme = new Theme();
         await theme.getThemes()
 
-        // const result = await Theme.getThemes()
-        // const themes = result.data
         const themeA = theme.getHomeLocationA()
         const themeE = theme.getHomeLocationE()
         let themeESpu = []
@@ -54,13 +56,10 @@ Page({
         }
 
         const themeF = theme.getHomeLocationF()
-
         const bannerB = await Banner.getHomeLocationB()
         const grid = await Category.getGridCategoryC()
         const activityD = await Activity.getHomeLocationD()
-
         const bannerG = await Banner.getHomeLocationG()
-
         const themeH = theme.getHomeLocationH()
 
         this.setData({
@@ -86,8 +85,12 @@ Page({
     /**
      * 页面上拉触底事件的处理函数
      */
-    onReachBottom: function () {
-
+    onReachBottom: async function () {
+        const data = await this.data.spuPaging.getMoreData()
+        if (!data) {
+            return
+        }
+        wx.lin.renderWaterFlow(data.items)
     },
 
     /**
