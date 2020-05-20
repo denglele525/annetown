@@ -1,0 +1,4 @@
+<view class="container">
+    <view class="title"></view>
+    <view class="specifications"></view>
+</view>

@@ -1,8 +1,8 @@
-import {Theme} from "../../model/theme";
-import {Banner} from "../../model/banner";
-import {Category} from "../../model/category";
-import {Activity} from "../../model/activity";
-import {Spu_paging} from "../../model/spu_paging";
+import {Theme} from "../../models/theme";
+import {Banner} from "../../models/banner";
+import {Category} from "../../models/category";
+import {Activity} from "../../models/activity";
+import {Spu_paging} from "../../models/spu_paging";
 
 Page({
 
@@ -19,7 +19,8 @@ Page({
         themeF: null,
         bannerG: null,
         themeH: null,
-        spuPaging: null
+        spuPaging: null,
+        loadingType: 'loading'
     },
 
     /**
@@ -91,6 +92,11 @@ Page({
             return
         }
         wx.lin.renderWaterFlow(data.items)
+        if (!data.moreData) {
+            this.setData({
+                loadingType: 'end'
+            })
+        }
     },
 
     /**
